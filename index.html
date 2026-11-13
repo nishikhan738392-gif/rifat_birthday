@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#230b2b">
+<title>Special Wishes for Rifat</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;min-height:100vh;color:#fff7fb;font-family:Arial,sans-serif;background:radial-gradient(ellipse at 50% 34%,#51143f 0,#2b0d31 48%,#10091b 100%);overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 12% 18%,#fff 80%,transparent),radial-gradient(1.5px 1.5px at 79% 28%,#ffd5ed 80%,transparent),radial-gradient(1px 1px at 43% 76%,#fff 80%,transparent),radial-gradient(1.5px 1.5px at 91% 84%,#ffc1e2 80%,transparent);background-size:220px 200px;opacity:.65}
+main{width:min(96%,650px);margin:auto;padding:28px 0 48px;position:relative;text-align:center}
+.panel{display:none;animation:fadein .8s ease both}.panel.active{display:block}
+@keyframes fadein{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+.kicker{font:10px Arial,sans-serif;letter-spacing:.24em;text-transform:uppercase;color:#ffd5ec}
+h1{font-size:clamp(30px,7vw,44px);margin:16px 0 8px;text-shadow:0 0 18px #ff78c7,0 0 38px #ed299e}
+p{color:#fff0f8;line-height:1.8}
+button{border:1px solid #ffc1e2;background:linear-gradient(135deg,#a32a70,#4b164e);color:white;padding:14px 30px;border-radius:999px;font:12px Arial,sans-serif;letter-spacing:.13em;cursor:pointer;box-shadow:0 0 26px #ff4ba555}
+button:active{transform:scale(.98)}
+#scene{display:block;width:100%;height:clamp(390px,100vw,550px);margin:0 auto}
+.heart-title{font-weight:bold;font-size:clamp(18px,4vw,24px);letter-spacing:.08em;text-shadow:0 0 16px #ff78c7;margin:-12px 0 16px}
+.letter-card{position:relative;margin:16px auto 0;width:calc(100% - 18px);padding:25px 21px 28px;border:1px solid #ffc5e64a;border-radius:28px;background:linear-gradient(145deg,rgba(25,5,28,.93),rgba(12,7,24,.97));box-shadow:0 0 36px #ff4ba51c,0 18px 55px #0008;text-align:center;max-height:470px;overflow:auto}
+.letter-card:before{content:"";position:absolute;inset:7px;border:1px solid #ffc5e61c;border-radius:21px;pointer-events:none}
+.letter-card h2{position:relative;margin:0 0 14px;color:#ff8dcb;font-size:24px;text-shadow:0 0 15px #ff3eaa}
+.letter-card p{position:relative;color:#fff0f8;font-size:15.5px;line-height:1.85;margin:10px 0}
+.signature{position:relative;margin-top:22px;color:#ffd0e9;font:16px/1.8 Georgia,serif;letter-spacing:.04em}
+.small{font:10px Arial,sans-serif;letter-spacing:.2em;color:#d7a4c6;margin-top:23px}
+#letterPanel{padding-top:35px}
+</style>
+</head>
+<body>
+<main>
+ <section id="welcome" class="panel active">
+  <div class="kicker">A little surprise, made just for you</div>
+  <h1>Special Wishes For You</h1>
+  <p>From Nishu</p>
+  <button onclick="showHeart()">TAP TO OPEN</button>
+ </section>
+
+ <section id="heartPanel" class="panel">
+  <div class="kicker">A wish made with care</div>
+  <canvas id="scene" aria-label="Hundreds of tiny glowing pink and white hearts swirling together into a large heart-shaped tree"></canvas>
+  <div class="heart-title">HAPPY BIRTHDAY, RIFAT!</div>
+  <p class="kicker">For You, From Nishu</p>
+  <button onclick="showLetter()">TAP TO OPEN</button>
+ </section>
+
+ <section id="letterPanel" class="panel">
+  <div class="letter-card">
+   <h2>Hey Rifat 💞</h2>
+   <p>Happy birthday! Many, many happy returns of the day!</p>
+   <p>May this new chapter of your life bring you endless happiness, peace, and beautiful memories. May Allah bless you with good health, guide you towards what is best, and keep you surrounded by kindness.</p>
+   <p>May your days be bright, your smile stay lovely, and your dreams find their way to reality. Keep believing in yourself, keep growing, and never stop being the wonderful person you are.</p>
+   <p>Have the happiest birthday, Rifat. I hope this year brings you more reasons to smile than ever before!</p>
+   <div class="signature">Your Special One,<br><strong>Nishu....</strong></div>
+  </div>
+  <div class="small">A WISH MADE WITH CARE · JUST FOR YOU</div>
+ </section>
+</main>
+<script>
+function showPanel(id){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.getElementById(id).classList.add('active')}
+function showHeart(){showPanel('heartPanel');startHeartAnimation()}
+function showLetter(){showPanel('letterPanel')}
+function startHeartAnimation(){
+ const c=document.getElementById('scene'),g=c.getContext('2d');let W,H,D,parts=[],start=performance.now(),raf;
+ const colors=['#ff3d9e','#ff68b2','#ff91c9','#ffc0df','#ffe0ef','#fff3fa','#ed238d','#d91d80'];
+ function heartXY(t){return{x:16*Math.pow(Math.sin(t),3),y:-(13*Math.cos(t)-5*Math.cos(2*t)-2*Math.cos(3*t)-Math.cos(4*t))}}
+ function inside(x,y){let xx=x/16,yy=-y/17;return Math.pow(xx*xx+yy*yy-1,3)-xx*xx*yy*yy*yy<=0}
+ function setup(){const r=c.getBoundingClientRect();D=Math.min(devicePixelRatio||1,2);W=r.width;H=r.height;c.width=W*D;c.height=H*D;g.setTransform(D,0,0,D,0,0);let cx=W/2,cy=H*.405,scale=Math.min(W*.025,H*.021);parts=[];
+ for(let i=0;i<610;i++){let x,y;if(i<390){let n=0;do{x=(Math.random()*2-1)*15.7;y=(Math.random()*2-1)*16.2;n++}while(!inside(x,y)&&n<200)}else{let q=heartXY(Math.random()*Math.PI*2),j=(Math.random()-.5)*1.3;x=q.x+j;y=q.y+j}
+ let a=Math.random()*Math.PI*2,rad=Math.max(W,H)*(.36+Math.random()*.34);parts.push({sx:cx+Math.cos(a)*rad,sy:cy+Math.sin(a)*rad,tx:cx+x*scale,ty:cy+y*scale,size:4+Math.random()*7.5,color:colors[Math.floor(Math.random()*colors.length)],phase:Math.random()*7,spin:(Math.random()-.5)*2})}}
+ function draw(now){g.clearRect(0,0,W,H);let t=(now-start)/1000,cx=W/2,cy=H*.405,p=Math.min(1,Math.max(0,(t-.25)/3.5)),e=1-Math.pow(1-p,3);
+ g.save();g.lineCap='round';g.lineJoin='round';g.shadowBlur=22;g.shadowColor='#ff66b7';g.strokeStyle='rgba(255,151,205,.65)';g.lineWidth=13;g.beginPath();g.moveTo(cx,H*.91);g.bezierCurveTo(cx-8,H*.78,cx+10,H*.67,cx,H*.57);g.stroke();g.lineWidth=5;g.strokeStyle='rgba(255,185,220,.48)';for(let s of [-1,1]){g.beginPath();g.moveTo(cx,H*.69);g.bezierCurveTo(cx+s*18,H*.63,cx+s*45,H*.59,cx+s*78,H*.48);g.stroke()}g.restore();
+ g.save();g.lineWidth=1.2;g.strokeStyle='rgba(255,171,215,.23)';for(let s=0;s<7;s++){g.beginPath();for(let k=0;k<=90;k++){let u=k/90,a=u*Math.PI*3.5+s*.9,rx=(1-u)*W*.38+u*W*.035,x=cx+Math.cos(a)*rx,y=H*.82-u*H*.48+Math.sin(a)*rx*.23;if(k===0)g.moveTo(x,y);else g.lineTo(x,y)}g.stroke()}g.restore();
+ parts.forEach(q=>{let a=(1-e)*q.spin*5.5+t*.18+q.phase*.06,dx=q.sx-cx,dy=q.sy-cy,ox=cx+dx*Math.cos(a)-dy*Math.sin(a),oy=cy+dx*Math.sin(a)+dy*Math.cos(a),x=ox*(1-e)+q.tx*e,y=oy*(1-e)+q.ty*e,pulse=1+.15*Math.sin(t*2.7+q.phase);g.save();g.translate(x,y);g.rotate(Math.sin(t*1.3+q.phase)*.3);g.font=`${q.size*pulse}px Georgia`;g.textAlign='center';g.textBaseline='middle';g.shadowBlur=13;g.shadowColor=q.color;g.fillStyle=q.color;g.fillText('♥',0,0);g.restore()});
+ for(let i=0;i<18;i++){let a=i*2.4+t*.12,rr=W*(.32+(i%3)*.035),x=cx+Math.cos(a)*rr,y=cy+Math.sin(a)*rr*.65;g.save();g.globalAlpha=.35+.25*Math.sin(t+i);g.fillStyle=colors[i%colors.length];g.font=`${8+i%5*2}px Georgia`;g.fillText('♥',x,y);g.restore()}
+ raf=requestAnimationFrame(draw)}
+ setup();draw(start);addEventListener('resize',()=>{cancelAnimationFrame(raf);setup();start=performance.now();draw(start)},{once:true});
+}
+</script>
+</body>
+</html>
